@@ -373,3 +373,79 @@ const getHeroeByIdByOwner = (owner) =>{
  
 console.log('owner',getHeroeByIdByOwner('Marvel')); // [Batman, Superman, Spiderman]
 ```
+
+## PROMESAS
+
+then / catch / finaly --> depués del then y el catch
+```js
+const promesa = new Promise((resolve, reject) => {
+
+  const heroe = getHeroeById(id)
+  //console.log('promesa',heroe);
+  resolve(heroe);
+  //reject(':X')
+
+ });
+
+promesa.then((heroe) => {
+  console.log('resolve', heroe);
+})
+
+.catch(err => {
+  console.log(err);
+}) 
+```
+
+```js
+const getHeroeByIdAsync = (id) => {
+  
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+      const heroe = getHeroeById(id)
+      if(heroe){  
+        //console.log('promesa',heroe);
+        resolve(heroe);
+        //reject(':X')
+      } else {
+        reject('nop hay heroe :C')
+      }
+    },2000)
+    
+   });
+}
+
+getHeroeByIdAsync(10)
+  .then(heroe => console.log(heroe))
+  .catch(err => console.log(err))
+
+```
+## FETCH API
+
+Librería Incluida en JS 
+
+```js
+ const apiKey = 'US5pS4v19yQs5zl9oWSFwjUP6wWlnQzJ';
+// Primer promesa convierte a .json
+// Segunda promesa resulve la promesa anterior y muestra la data
+const httpCall = fetch(`http://api.giphy.com/v1/gifs/random?api_key=${apiKey}`)
+httpCall
+.then(resp => resp.json())
+.then(data => console.log(data.data))
+.catch(console.warn) 
+
+```
+Using destructuring
+
+```js
+const httpCall = fetch(`http://api.giphy.com/v1/gifs/random?api_key=${apiKey}`)
+httpCall
+.then(resp => resp.json())
+.then(({data}) => {
+  const { url } = data.images.original;
+  const img = document.createElement('img');
+  img.src = url;
+  document.body.append( img )
+})
+.catch(console.warn)
+```

@@ -177,3 +177,199 @@ const getUsuarioActivo2 = nombre => ({ id: 123 , nickName: 'kdofk234'})
 
 console.log(getUsuarioActivo2('Pedro'));
 ```
+
+## Object destructuring
+
+```js
+const persona = {
+  nombre: 'sofia',
+  edad: 30,
+  clave: 'developer'
+
+}
+ // Extraer la info del objeto 
+console.log(persona.clave);
+```
+
+Destructuring, asignar a una variable el valor de una propiedad de un objeto 
+```js
+ const { nombre, edad, clave } = persona;
+ // Si quiero cambiarle el nombre a la propiedad al momento de asignarla a una variable
+ const { nombre: name } = persona;
+
+ console.log(nombre);
+ console.log(edad);
+ console.log(clave);
+```
+
+```js
+const retornaPersona = (usuario) => {
+   console.log(usuario);
+ } 
+
+// Se puede desestrucurar desde elparametro
+const retornaPersona = ({ nombre, edad}) => {
+  console.log(nombre, edad);
+} */
+
+//Podemos asignar una nueva propiedad
+const retornaPersona = ({ nombre, edad , rango = 'frontend'}) => {
+  console.log(nombre, edad, rango);
+} 
+```
+**useContext**
+```js
+// sustituir
+// const retornaPersona = ({ clave, nombre, edad , rango}) => {
+// por
+const useContext = ({ clave, nombre, edad , rango}) => {
+  return {
+    nombreClave: clave,
+    anios: edad,
+    latlng: {
+      lat: 12.345,
+      lng: -344.324
+    }
+  }
+}
+```
+
+```js
+const employee = useContext(persona)
+console.log(employee); // objeto
+
+const { nombreClave, anios, latlng } = employee;
+// Propiedades del objeto destructuradas
+console.log(nombreClave, anios);  
+console.log(latlng);
+```
+Destructurar un objeto bajando de nivel a otro objeto
+```js
+const { nombreClave, anios, latlng:{ lat, lng} } = useContext(persona);
+console.log(nombreClave, anios );
+console.log(latlng); // Marca error porque ya no existe al desestructuralo
+console.log(lat, lng);
+```
+
+## Desestructuración de Arreglos
+```js
+const personajes = ['Goku', 'Vegeta', 'Trunks'];
+
+// Obtenerlos uno por uno
+console.log(personajes[0]);
+console.log(personajes[1]);
+console.log(personajes[2]); 
+```
+Destructuring, hay que tener en cuenta que funciona según el lugar en el que está el elemento 
+```js
+const [ goku ] = personajes;
+console.log(goku);
+ 
+const [ ,vegeta ] = personajes;
+console.log(vegeta);
+
+const [ , ,trunks ] = personajes;
+console.log(trunks);
+
+const [ p1, p2, p3] = personajes;
+console.log(p1);
+console.log(p2);
+console.log(p3);
+```
+
+```js
+const retornaArreglo = () => {
+  return ['ABC',123] 
+}
+
+const [letras, numeros] = retornaArreglo();
+console.log(letras, numeros); // 'ABC', 123
+```
+```js
+const useState  = (valor) =>{
+  return [ valor, () => { console.log( 'hola mundo')}];
+}
+
+const arr = useState('Goku');
+
+console.log(arr); // ["Goku", ƒ]
+
+arr[1](); // Hola mundo
+
+const [nombre, sendGreeting ] = useState('Vegeta');
+
+console.log(nombre); // Goku
+sendGreetings(); // 'Hola mund'
+```
+
+## Export - Import 
+
+**Multipes exportaciones y exportaciones por defecto**
+```js
+const heroes = []
+```
+```js
+export const heroes = []
+``` 
+```js
+export default heroes;
+```
+Se está exportando el contenido de todo el, archivo heroes.js, al importar se puede poner el nombre que sea
+```js
+export default  [ ]
+``` 
+
+Exportación por defecto y exportación individual
+```js
+export const owners = ['DC', 'Marvel'];
+export default heroes;
+
+// o
+ 
+export {
+  heroes as default,
+  owners
+}
+```
+**Importaciones**
+```js
+import { heroes } from './data/heroes';
+
+```
+Exportación por defecto y { x } exportaciones individuales
+```js
+import heroes, { owners } from './data/heroes'; 
+```
+
+## Find
+
+```js
+const getHeroeById = (id) => {
+  return heroes.find(( heroe ) =>{
+    if(heroe.id === id){
+      return true
+    } else {
+      return false
+    } 
+  })
+
+};
+
+// Find retorna un boolean, solo retorna 1 elemento
+
+const getHeroeById = (id) => {
+  return heroes.find( heroe  => heroe.id === id)
+};
+
+console.log('id',getHeroeById(2)); // {Batman}
+
+```
+## Filter
+```js
+// Filter retorna un array con los objetos que tienen la propiedad que se está buscando 
+const getHeroeByIdByOwner = (owner) =>{
+  return heroes.filter( heroe  => heroe.owner === owner)
+};
+ 
+console.log('owner',getHeroeByIdByOwner('Marvel')); // [Batman, Superman, Spiderman]
+```

@@ -501,3 +501,24 @@ const getImagePromise = async() => {
 getImagePromise();
 // el try y el catch son las formas de manejo de errores en asyc/ await
 ```
+## Operador ternario
+
+**if normal**
+```js
+const activo =  true;
+
+let mensaje = '';
+
+if (activo) {
+  mensaje = 'Activo';
+} else {
+  mensaje = 'Inactivo';
+} 
+```
+**Operador ternario**
+```js
+const mensaje = ( activo ) ?'Activo' : 'Inactivo';
+
+const mensaje =  activo && 'Activo'; // 'Activo'
+const mensaje =  !activo && 'Activo'; // false
+```

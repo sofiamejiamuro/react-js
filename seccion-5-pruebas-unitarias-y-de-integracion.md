@@ -26,3 +26,4 @@ Act - Aplicar acciones o estimulos al sujeto de prueba:
 
 Assert - Observar el comportamiento resultante:
   - Son los resultados esperados
+

@@ -97,8 +97,15 @@ describe('Pruebas en el archivo demo.test.js', () => {
 ```
 
 Se deben exportar las funciones a probar para importarlas en los tests
-
+**Archivo que se desea testear**
 ```js
+export function getSaludo(nombre) {
+    return 'Hola ' + nombre;
+}
+```
+**TEST**
+```js
+// para mirar las ayudas de los métodos
 import '@testing-library/jest-dom';
 
 const { getSaludo } = require("../../base/02-template-string");
@@ -123,5 +130,108 @@ p
 escribir nombre del acrchivo
 
 regresa el test del archivo unicamente
+
+```
+
+También podemos revisar qué pasaría si hay paràmetros por default
+
+```js
+export function getSaludo(nombre='Richi') {
+    return 'Hola ' + nombre;
+}
+```
+
+```js
+import '@testing-library/jest-dom';
+const { getSaludo } = require("../../base/02-template-string");
+
+describe('archivo 02', () => {
+
+  test('getSaludo debe de retornar Hola Sofia ', () => {
+    // 1. Inicializacion
+    const name = 'Sofia';
+
+    // 2. Estimulo
+    const saludo = getSaludo( name );
+
+    // 3. Observar el comportamiento
+    expect( saludo ).toBe( `Hola ${name}` )
+
+  })
+
+  test('getSaludo debe de retornar el parámetro establecido por default si no le pasamos un argumento', () => {
+    // 1. Inicializacion
+
+    // 2. Estimulo
+    const saludo = getSaludo();
+
+    // 3. Observar el comportamiento
+    expect( saludo ).toBe( `Hola Richi` )
+
+  })
+  
+})
+```
+Trabajar con objetos
+```js
+const { getUser } = require("../../base/05-funciones")
+const { getUsuarioActivo } = require("../../base/05-funciones")
+
+
+describe('05 funciones', () => {
+  test('getUser debe retornar un objeto', () => {
+    // 1.
+    const userTest = {
+      uId: 'ABC123',
+      username: 'El_Papi1502'
+    } 
+    // 2.
+    const user = getUser();
+
+    // 3.
+    // es un error porque no se evaluan los objetos con .toBe()
+    // expect( user ).toBe( userTest );
+    // Los objetos se evalñuan con toEqual()
+    expect( user ).toEqual( userTest );
+  })
+  test('getUsuario activo debe retornar un objeto', () => {
+    // 1.
+    const nombre = 'Sofia'
+    const userTest = {
+      uId: 'ABC567',
+      username: 'Sofia',
+    } 
+    
+    // 2.
+    const userActive = getUsuarioActivo( nombre );
+
+    //w
+    expect( userActive ).toEqual( userTest );
+  })
+  
+  
+});
+```
+
+Trabajar destructuring de arrays
+
+```js
+const { retornaArreglo } = require("../../base/07-deses-arr")
+
+describe('Prubas destructuring arrays', () => {
+  test('retornaArreglo debe regresarme un string y un número ', () => {
+    
+    const arr = retornaArreglo ();
+    expect( arr ).toEqual( ['ABC',123] );
+
+    const [ letras, numeros] = retornaArreglo ();
+    expect( letras ).toBe('ABC')
+    expect( typeof letras ).toBe('string')
+  
+    expect( numeros ).toBe( 123 )
+    expect( typeof numeros ).toBe('number')
+  })
+  
+})
 
 ```

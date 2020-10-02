@@ -235,3 +235,100 @@ describe('Prubas destructuring arrays', () => {
 })
 
 ```
+
+## PRUEBAS ASINCRONAS
+
+### Solo evaluar laa promesa 
+
+**PROMESA**
+```js
+
+export const getHeroeByIdAsync = ( id ) => {
+
+    return new Promise( (resolve, reject) => {
+
+        setTimeout( () =>  {
+            // Tarea
+            // importen el 
+            const p1 = getHeroeById( id );
+            if ( p1 ) {
+                resolve( p1 );
+            } else {
+                reject( 'No se pudo encontrar el héroe' );
+            }
+        }, 1000 )
+    
+    });
+
+
+}
+```
+**TEST**
+```js
+
+describe('Pruebas con promesas', () => {
+  // done para promesas
+  test('debe rerornar un heroe async', ( done ) => {
+    const id = 1;
+
+    getHeroeByIdAsync(id)
+      .then( heroe => {
+
+        expect( heroe ).toBe( heroes[0])
+        done();
+      })
+
+  });
+  test('debe rerornar un error si el heroe po ID no existe', ( done ) => {
+    const id = 10;
+
+    getHeroeByIdAsync(id)
+      .catch( error => {
+
+        expect( error ).toBe( 'No se pudo encontrar el héroe' )
+        done();
+        
+      });
+
+  });
+});
+```
+
+### Evaluar el await de la promesa
+
+**async**
+```js
+export const getImagen = async() => {
+
+    try {
+
+        const apiKey = 'DLs4Ld2lXws5Wf8dsGjmtaFfK1CjDKtQ';
+        const resp   = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=${ apiKey }`);
+        const { data } = await resp.json(); 
+
+        const { url } = data.images.original;
+
+       return url;
+
+    } catch (error) {
+        // manejo del error
+        return 'No existe';
+    }
+
+}
+```
+**test**
+```js
+
+describe('Puebas con async-await y Fetch', () => {
+  
+  test('debe de retornar el url de la imagen ', async () => {
+    // getImage es una promesa y se debe resolver, por eso ponemos async al test
+    const url = await getImagen();
+
+    expect( typeof url ).toBe( 'string')
+
+  })
+  
+})
+```
